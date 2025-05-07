@@ -11,7 +11,7 @@ jobs:
     env:
       AWS_REGION: us-east-1
       STACK_NAME: jesusdevops
-      BUCKET_NAME: frontend-static-jesusdevops-east-1
+      BUCKET_NAME: frontend-static-jesusdevops-us-east-1
 
     steps:
       - name: Checkout repo
