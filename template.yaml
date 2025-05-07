@@ -115,12 +115,31 @@ Resources:
     Properties:
       SubnetId: !Ref MySubnet
       RouteTableId: !Ref RouteTable
-
+  
   LambdaSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Acceso para la Lambda
       VpcId: !Ref MyVPC
+
+  VPCEndpointS3:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub "com.amazonaws.${AWS::Region}.s3"
+      VpcId: !Ref MyVPC
+      VpcEndpointType: Gateway
+      RouteTableIds:
+        - !Ref RouteTable
+
+
+  VPCEndpointDynamo:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      ServiceName: !Sub "com.amazonaws.${AWS::Region}.dynamodb"
+      VpcId: !Ref MyVPC
+      VpcEndpointType: Gateway
+      RouteTableIds:
+        - !Ref RouteTable
 
   UploadFunction:
     Type: AWS::Serverless::Function
