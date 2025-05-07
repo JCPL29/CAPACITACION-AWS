@@ -83,6 +83,12 @@ Resources:
       BucketName: !Sub 'uploads-bucket-${AWS::StackName}-${AWS::Region}'
 
 
+  LambdaSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Acceso para la Lambda
+      VpcId: !Ref MyVPC
+      
   UploadFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -92,6 +98,11 @@ Resources:
       CodeUri: backend/
       MemorySize: 128
       Timeout: 10
+      VpcConfig:
+        SecurityGroupIds:
+          - !GetAtt LambdaSecurityGroup.GroupId
+        SubnetIds:
+          - !Ref MySubnet
       Environment:
         Variables:
           BUCKET_NAME: !Ref UploadBucket
